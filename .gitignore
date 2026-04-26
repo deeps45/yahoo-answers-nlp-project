@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Editor / IDE
+.vscode/
+
+# Python environments
+.venv/
+venv/
+
+# Python cache/build
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local data artifacts (keep only instructions in data/)
+data/*.csv
+data/*.tar
+data/*.tar.gz
+data/*.zip
+!data/README_data.md
+
+# Local helper/instructions file
+final_deliverable_instructions.txt

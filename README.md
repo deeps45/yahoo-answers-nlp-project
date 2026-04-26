@@ -1,13 +1,10 @@
-# 🗣️ Can a Machine Know What You're Talking About?
-## Topic Classification of the Yahoo! Answers Dataset
+# 🗣️ Can a Machine Know What You’re Talking About?
+## Yahoo! Answers Topic Classification with Classical NLP and Transformers
 
 **Course:** CSCE 676 — Data Mining  
-**Dataset:** Yahoo! Answers Topic Classification — Zhang et al., 2015  
-*(1.4 million training posts · 10 topic categories · real user-generated text)*
+**Dataset:** Yahoo! Answers Topic Classification (Zhang et al., 2015)
 
-> *"Yahoo Answers was the internet's most chaotic public square — grammar optional, sincerity maximum. Can a data mining pipeline make sense of it?"*
-
-This project builds a full NLP classification pipeline on the Yahoo Answers dataset — from exploratory data analysis through classical baselines (TF-IDF + Logistic Regression, LSA) to transformer fine-tuning (BERT, DistilBERT, ULMFiT) — answering the question: **does reading words in context matter, or is knowing which words appear enough?**
+Yahoo! Answers is noisy, informal, and chaotic in the best way possible—exactly the kind of text that challenges real-world NLP systems. This project builds a complete topic-classification pipeline, starting with strong classical baselines (TF-IDF + Logistic Regression, LSA) and advancing to contextual models (ULMFiT, DistilBERT, BERT, and zero-shot BART), to answer one central question: **does understanding context materially improve classification quality over bag-of-words features?**
 
 ---
 
@@ -32,47 +29,6 @@ This project is organized around three research questions, each answered by a de
 | **RQ1** | How far can word frequencies alone take us? | TF-IDF + Logistic Regression | **0.6653** |
 | **RQ2** | Can compressing features into topics help? | Latent Semantic Analysis (SVD) | 0.6350 |
 | **RQ3** | Does reading words in context close the gap? | BERT Fine-Tuning | **0.7281** |
-
----
-
-## 📊 Results Summary
-
-The best model — BERT fine-tuned on the full dataset — achieves **75.7% Macro F1**, a 9-point improvement over the TF-IDF baseline. The key finding: contextual representations (BERT) outperform word-frequency representations (TF-IDF) by 6+ points **even with 12× less training data**, and the gap widens further to 9 points when BERT is given the full dataset.
-
-| Model | Macro F1 | Accuracy | Notes |
-|-------|----------|----------|-------|
-| Random Baseline | 0.100 | — | Floor |
-| LSA (k=300) | 0.635 | 0.641 | Worse than TF-IDF |
-| TF-IDF + LR | 0.665 | 0.671 | Strong classical baseline |
-| Zero-Shot BART-MNLI | 0.610 | — | 0 task-specific examples |
-| ULMFiT (AWD-LSTM) | 0.680 | 0.687 | Sequential context |
-| DistilBERT | 0.720 | 0.725 | 40% smaller, near-BERT quality |
-| BERT (50K examples) | 0.728 | 0.732 | 12× less data than TF-IDF |
-| **BERT (Full Dataset)** | **0.757** | **0.763** | **Best overall** |
-
-**Central conclusion:** Context matters — significantly and measurably. The 6-point Macro F1 gain from Stage 1 to Stage 3 represents thousands of correctly routed posts per day in a production system. See `main_notebook.ipynb` Phase 9 for the full analysis.
-
----
-
-## 📁 Repo Structure
-
-```
-yahoo-answers-nlp-project/
-│
-├── main_notebook.ipynb          # 👈 Main deliverable — start here
-├── requirements.txt             # Full dependency list (exported from Colab)
-├── README.md                    # This file
-│
-├── checkpoints/
-│   ├── checkpoint_1.ipynb       # Checkpoint 1: Dataset selection & initial EDA
-│   └── checkpoint_2.ipynb       # Checkpoint 2: Research questions & experimental design
-│
-├── data/
-│   └── README_data.md           # Instructions for downloading the dataset
-│
-└── assets/
-    └── figures/                 # Output figures referenced in the notebook
-```
 
 ---
 
@@ -122,9 +78,9 @@ All preprocessing is done inside `main_notebook.ipynb` Phase 2. Key steps:
 
 ---
 
-## ▶️ How to Reproduce
+## ▶️ Reproducibility
 
-This project was built and run entirely in **Google Colab** with a T4 GPU.
+This project was developed primarily in **Google Colab** (T4 GPU for transformer training).
 
 ### Quick Start
 
@@ -155,13 +111,19 @@ pip install -r requirements.txt
 | 2 | `checkpoints/checkpoint_2.ipynb` | Research question formalization |
 | 3 | `main_notebook.ipynb` | Full pipeline — EDA through conclusions |
 
-> ⚠️ **Note on Phase 8.3 (Full-Dataset BERT):** This experiment required ~3.6 hours on a T4 GPU. The results are stored in the notebook and the training code is preserved (commented out) for transparency. Re-running it interactively in a standard Colab session is not feasible without extended runtime access.
+### Runtime note
+
+The long full-dataset BERT training stage is computationally expensive (multi-hour on T4). The final notebook contains reported results and analysis for reproducibility and review.
 
 ---
 
-## 🔑 Key Dependencies
+## 🔑 Key Dependencies and Versions
 
-The table below reflects the versions pinned in `requirements.txt`.
+Python version captured via `!python --version`:
+
+- **Python 3.9.6**
+
+Representative core packages (full environment is in [`requirements.txt`](requirements.txt)):
 
 | Package | Version | Used For |
 |---------|---------|---------|
@@ -192,13 +154,47 @@ The complete list of every package and version from the Colab session lives in [
 
 ---
 
-## 🚀 Project Overview
+## 📁 Repo Structure
 
-Online question-and-answer platforms process millions of posts every day. Routing each post to the correct topic category enables better search, smarter recommendations, and effective content moderation. Done manually, this is impossibly slow at scale; done naively with keyword matching, it fails on informal language.
+```
+yahoo-answers-nlp-project/
+│
+├── main_notebook.ipynb          # 👈 Main deliverable — start here
+├── requirements.txt             # Full dependency list (exported from Colab)
+├── README.md                    # This file
+│
+├── checkpoints/
+│   ├── checkpoint_1.ipynb       # Checkpoint 1: Dataset selection & initial EDA
+│   └── checkpoint_2.ipynb       # Checkpoint 2: Research questions & experimental design
+│
+├── data/
+│   └── README_data.md           # Instructions for downloading the date
+|
+└── assets/
+    ├── figure_01_f1_per_class.png
+    ├── figure_02_f1_vs_svd.png
+    ├── ...
+    └── figure_11_ulmfit_lr.png
+```
 
-This project builds and compares a full suite of NLP approaches on the Yahoo Answers Topic Classification Dataset — one of the largest public benchmarks for multi-class text classification — testing methods from classical data mining (TF-IDF, SVD) through modern deep learning (BERT, DistilBERT, ULMFiT, zero-shot BART).
+---
 
-The central experimental design uses **one stratified 80/20 train/validation split for all models** to ensure fair comparison, with 5-fold cross-validation to validate single-split estimates.
+## 📊 Results Summary
+
+The best model — BERT fine-tuned on the full dataset — achieves **75.7% Macro F1**, a 9-point improvement over the TF-IDF baseline. The key finding: contextual representations (BERT) outperform word-frequency representations (TF-IDF) by 6+ points **even with 12× less training data**, and the gap widens further to 9 points when BERT is given the full dataset.
+
+| Model | Macro F1 | Accuracy | Notes |
+|-------|----------|----------|-------|
+| Random Baseline | 0.100 | — | Floor |
+| LSA (k=300) | 0.635 | 0.641 | Worse than TF-IDF |
+| TF-IDF + LR | 0.665 | 0.671 | Strong classical baseline |
+| Zero-Shot BART-MNLI | 0.610 | — | 0 task-specific examples |
+| ULMFiT (AWD-LSTM) | 0.680 | 0.687 | Sequential context |
+| DistilBERT | 0.720 | 0.725 | 40% smaller, near-BERT quality |
+| BERT (50K examples) | 0.728 | 0.732 | 12× less data than TF-IDF |
+| **BERT (Full Dataset)** | **0.757** | **0.763** | **Best overall** |
+
+**Central conclusion:** Context matters — significantly and measurably. The 6-point Macro F1 gain from Stage 1 to Stage 3 represents thousands of correctly routed posts per day in a production system. See `main_notebook.ipynb` Phase 9 for the full analysis.
 
 ---
 

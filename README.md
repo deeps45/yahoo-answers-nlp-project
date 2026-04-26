@@ -185,10 +185,10 @@ The best model — BERT fine-tuned on the full dataset — achieves **75.7% Macr
 
 | Model | Macro F1 | Accuracy | Notes |
 |-------|----------|----------|-------|
-| Random Baseline | 0.100 | — | Floor |
+| Random Baseline | 0.100 | 0.100 | Floor |
 | LSA (k=300) | 0.635 | 0.641 | Worse than TF-IDF |
 | TF-IDF + LR | 0.665 | 0.671 | Strong classical baseline |
-| Zero-Shot BART-MNLI | 0.610 | — | 0 task-specific examples |
+| Zero-Shot BART-MNLI | 0.610 | 0.6060 | 0 task-specific examples |
 | ULMFiT (AWD-LSTM) | 0.680 | 0.687 | Sequential context |
 | DistilBERT | 0.720 | 0.725 | 40% smaller, near-BERT quality |
 | BERT (50K examples) | 0.728 | 0.732 | 12× less data than TF-IDF |

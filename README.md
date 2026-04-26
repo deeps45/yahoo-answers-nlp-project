@@ -130,6 +130,35 @@ The long full-dataset BERT training stage is computationally expensive (multi-ho
 
 ---
 
+## ⚡ Scripts & Automation
+
+This repo includes a `scripts/` folder with utilities for setup, reproducibility, and automation:
+
+- `scripts/setup.sh` — One-step Python environment setup (creates `.venv` and installs requirements)
+- `scripts/download_data.sh` — Downloads and extracts the Yahoo Answers dataset to `data/`
+- `scripts/extract_figures.py` — Extracts all image outputs from `main_notebook.ipynb` to `assets/`
+- `scripts/verify_setup.py` — Checks repo structure and key dependencies
+
+### Quick usage
+
+```bash
+# 1. Set up Python environment
+bash scripts/setup.sh
+
+# 2. Download and extract dataset
+bash scripts/download_data.sh
+
+# 3. (Optional) Extract notebook figures to assets/
+python scripts/extract_figures.py
+
+# 4. (Optional) Verify repo structure and dependencies
+python scripts/verify_setup.py
+```
+
+See the `scripts/` folder for more details and usage instructions.
+
+---
+
 ## 🔑 Key Dependencies and Versions
 
 Python version captured via `!python --version`:

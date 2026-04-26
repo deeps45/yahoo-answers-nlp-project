@@ -169,22 +169,22 @@ The complete list of every package and version from the Colab session lives in [
 ```
 yahoo-answers-nlp-project/
 │
-├── main_notebook.ipynb          # 👈 Main deliverable — start here
-├── requirements.txt             # Full dependency list (exported from Colab)
-├── README.md                    # This file
+├── assets/
+│   ├── figure_01_f1_per_class.png
+│   ├── figure_02_f1_vs_svd.png
+│   ├── ...
+│   └── figure_11_ulmfit_lr.png
 │
 ├── checkpoints/
 │   ├── checkpoint_1.ipynb       # Checkpoint 1: Dataset selection & initial EDA
 │   └── checkpoint_2.ipynb       # Checkpoint 2: Research questions & experimental design
 │
 ├── data/
-│   └── README_data.md           # Instructions for downloading the date
-|
-└── assets/
-    ├── figure_01_f1_per_class.png
-    ├── figure_02_f1_vs_svd.png
-    ├── ...
-    └── figure_11_ulmfit_lr.png
+│   └── README_data.md           # Instructions for downloading the dataset
+│
+├── main_notebook.ipynb          # 👈 Main deliverable — start here
+├── README.md                    # This file
+└── requirements.txt             # Full dependency list (exported from Colab)
 ```
 
 ---

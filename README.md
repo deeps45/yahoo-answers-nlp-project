@@ -4,7 +4,7 @@
 **Course:** CSCE 676 — Data Mining  
 **Dataset:** Yahoo! Answers Topic Classification (Zhang et al., 2015)
 
-Yahoo! Answers is noisy, informal, and chaotic in the best way possible—exactly the kind of text that challenges real-world NLP systems. This project builds a complete topic-classification pipeline, starting with strong classical baselines (TF-IDF + Logistic Regression, LSA) and advancing to contextual models (ULMFiT, DistilBERT, BERT, and zero-shot BART), to answer one central question: **does understanding context materially improve classification quality over bag-of-words features?**
+Yahoo! Answers is noisy, informal, and chaotic in the best way possible—exactly the kind of text that challenges real-world NLP systems. This project builds a complete topic-classification pipeline, starting with strong classical baselines (TF-IDF + Logistic Regression, LSA) and advancing to contextual models (ULMFiT, DistilBERT, BERT, and zero-shot BART), to answer one central question: **Does reading words *in context* matter for topic classification — or is knowing *which* words appear enough?**
 
 ---
 
@@ -193,6 +193,8 @@ The best model — BERT fine-tuned on the full dataset — achieves **75.7% Macr
 | DistilBERT | 0.720 | 0.725 | 40% smaller, near-BERT quality |
 | BERT (50K examples) | 0.728 | 0.732 | 12× less data than TF-IDF |
 | **BERT (Full Dataset)** | **0.757** | **0.763** | **Best overall** |
+
+![Model comparison across Macro F1, Accuracy, and baseline gain](assets/figure_05_models_comparison.png)
 
 **Central conclusion:** Context matters — significantly and measurably. The 6-point Macro F1 gain from Stage 1 to Stage 3 represents thousands of correctly routed posts per day in a production system. See `main_notebook.ipynb` Phase 9 for the full analysis.
 

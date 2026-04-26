@@ -127,7 +127,7 @@ Representative core packages (full environment is in [`requirements.txt`](requir
 
 | Package | Version | Used For |
 |---------|---------|---------|
-| Python | 3.11 | Runtime |
+| Python | 3.9.6 | Runtime |
 | pandas | 2.2.2 | Data loading and manipulation |
 | numpy | 2.0.2 | Numerical operations |
 | scikit-learn | 1.6.1 | TF-IDF, Logistic Regression, LSA, CV |
@@ -194,7 +194,13 @@ The best model — BERT fine-tuned on the full dataset — achieves **75.7% Macr
 | BERT (50K examples) | 0.728 | 0.732 | 12× less data than TF-IDF |
 | **BERT (Full Dataset)** | **0.757** | **0.763** | **Best overall** |
 
+### Overall model comparison (Macro F1, Accuracy, and gain over baseline)
+
 ![Model comparison across Macro F1, Accuracy, and baseline gain](assets/figure_05_models_comparison.png)
+
+### Per-class performance: TF-IDF vs BERT
+
+![Per-class F1 comparison and BERT gain over TF-IDF](assets/figure_01_f1_per_class.png)
 
 **Central conclusion:** Context matters — significantly and measurably. The 6-point Macro F1 gain from Stage 1 to Stage 3 represents thousands of correctly routed posts per day in a production system. See `main_notebook.ipynb` Phase 9 for the full analysis.
 

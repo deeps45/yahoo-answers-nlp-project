@@ -103,6 +103,16 @@ Or install from the full requirements file:
 pip install -r requirements.txt
 ```
 
+### Export the Colab environment
+
+At the bottom of `main_notebook.ipynb`, run the following so the exact Colab environment is captured and saved into the repo:
+
+```python
+!pip freeze > requirements.txt
+from google.colab import files
+files.download('requirements.txt')
+```
+
 ### Run Order
 
 | Step | File | Description |
@@ -181,34 +191,89 @@ yahoo-answers-nlp-project/
 
 ## 📊 Results Summary
 
-The best model — BERT fine-tuned on the full dataset — achieves **75.7% Macro F1**, a 9-point improvement over the TF-IDF baseline. The key finding: contextual representations (BERT) outperform word-frequency representations (TF-IDF) by 6+ points **even with 12× less training data**, and the gap widens further to 9 points when BERT is given the full dataset.
+The final notebook makes a clear case for a simple but important conclusion: **contextual language models understand this dataset better than sparse word-frequency features**. The strongest classical baseline, TF-IDF + Logistic Regression, is already competitive, but the transformer models still move the needle further—especially when enough training data is available.
+
+### Main takeaways
+
+- **BERT fine-tuned on the full dataset is the strongest model overall**, reaching **0.757 Macro F1** and **0.763 accuracy**.
+- **TF-IDF + Logistic Regression remains a very strong classical baseline**, but BERT improves by about **9 points** in both Macro F1 and accuracy.
+- **DistilBERT and BERT with 50K examples** show that contextual features help even when the labeled data budget is much smaller.
+- **ULMFiT also performs well**, confirming that sequential context is already useful before moving to transformers.
+- **LSA underperforms the TF-IDF baseline**, which is a useful reminder that dimensionality reduction is not automatically better than a sparse representation.
+- **Zero-shot BART is a valuable reference point**, but it trails task-specific fine-tuning because this task benefits from domain adaptation.
 
 | Model | Macro F1 | Accuracy | Notes |
 |-------|----------|----------|-------|
-| Random Baseline | 0.100 | 0.100 | Floor |
-| LSA (k=300) | 0.635 | 0.641 | Worse than TF-IDF |
-| TF-IDF + LR | 0.665 | 0.671 | Strong classical baseline |
-| Zero-Shot BART-MNLI | 0.610 | 0.6060 | 0 task-specific examples |
-| ULMFiT (AWD-LSTM) | 0.680 | 0.687 | Sequential context |
-| DistilBERT | 0.720 | 0.725 | 40% smaller, near-BERT quality |
-| BERT (50K examples) | 0.728 | 0.732 | 12× less data than TF-IDF |
+| Random Baseline | 0.100 | 0.100 | Chance floor |
+| LSA (k=300) | 0.635 | 0.641 | Dimensionality reduction does not beat the sparse baseline |
+| TF-IDF + LR | 0.665 | 0.671 | Best classical baseline |
+| Zero-Shot BART-MNLI | 0.610 | 0.606 | No task-specific training |
+| ULMFiT (AWD-LSTM) | 0.680 | 0.687 | Strong sequential model |
+| DistilBERT | 0.720 | 0.725 | Efficient contextual encoder |
+| BERT (50K examples) | 0.728 | 0.732 | Context helps even with limited data |
 | **BERT (Full Dataset)** | **0.757** | **0.763** | **Best overall** |
 
 ### Overall model comparison (Macro F1, Accuracy, and gain over baseline)
+
+This figure shows the full leaderboard-style comparison across all models. The same pattern appears on both metrics: TF-IDF is a strong baseline, LSA drops slightly behind it, and the transformer models climb steadily toward the strongest full-dataset BERT result.
 
 ![Model comparison across Macro F1, Accuracy, and baseline gain](assets/figure_05_models_comparison.png)
 
 ### Per-class performance: TF-IDF vs BERT
 
+This per-class view shows where the transformer helps most. BERT produces the largest gains on the hardest labels—especially **Sports**, **Entertainment**, **Science**, and **Politics**—while still improving the rest of the classes in a consistent way.
+
 ![Per-class F1 comparison and BERT gain over TF-IDF](assets/figure_01_f1_per_class.png)
 
-**Central conclusion:** Context matters — significantly and measurably. The 6-point Macro F1 gain from Stage 1 to Stage 3 represents thousands of correctly routed posts per day in a production system. See `main_notebook.ipynb` Phase 9 for the full analysis.
+**Central conclusion:** Context matters—consistently and measurably. The 9-point jump from TF-IDF + Logistic Regression to BERT (full dataset) is not just a leaderboard improvement; it means fewer misrouted questions, better topic assignment, and a stronger practical system for noisy, user-generated text.
+
+---
+
+## ⚠️ Limitations
+
+Even though the notebook delivers strong results, it still has a few important constraints that should be stated clearly:
+
+- **Single-split evaluation:** The main comparison uses one stratified train/validation split for fairness across models. That makes the comparisons easy to read, but it is still less stable than repeated cross-validation across every model.
+- **Heavy class-specific context:** Yahoo! Answers posts can be long, noisy, and redundant, which helps contextual models but also means performance may be different on shorter or cleaner text sources.
+- **Compute cost:** The strongest transformer runs, especially the full-dataset BERT experiment, are expensive and not ideal for quick experimentation or low-resource environments.
+- **Domain dependence:** These results are optimized for the Yahoo! Answers topic space; performance may shift if the data distribution, label set, or writing style changes.
+- **No production drift testing:** The notebook focuses on model quality, not long-term drift, latency under load, or real-time monitoring after deployment.
+
+---
+
+## 🚀 Practical Deployment
+
+If this project were turned into a real application, the most practical path would be to keep the notebook logic but package it as a small inference service or batch pipeline.
+
+### Recommended deployment path
+
+- **Fast baseline layer:** Use **TF-IDF + Logistic Regression** as the quickest and cheapest fallback for simple or high-volume routing.
+- **Balanced production choice:** Use **DistilBERT** when you want strong quality with lower latency and a smaller memory footprint.
+- **Highest-quality offline classifier:** Use **BERT fine-tuned on the full dataset** for batch processing, moderation review queues, or higher-stakes topic routing where accuracy matters most.
+
+### Suggested production workflow
+
+1. Accept a question title, body, and answer as input.
+2. Normalize text using the same preprocessing used in `main_notebook.ipynb`.
+3. Route through a saved vectorizer/model bundle or a transformer inference endpoint.
+4. Return the predicted topic label plus confidence scores.
+5. Log predictions and low-confidence examples for review and future retraining.
+
+### What would matter in production
+
+- **Latency:** How fast the model responds per request.
+- **Throughput:** How many posts can be handled per minute or hour.
+- **Calibration:** Whether the confidence scores reflect reality.
+- **Monitoring:** Whether new language, slang, or topic drift changes accuracy over time.
+- **Retraining strategy:** How often the model should be refreshed as new data arrives.
 
 ---
 
 ## 🔮 Future Scope
 
-- **Topic Modeling:** LDA, BERTopic for contextual topic discovery
-- **Semantic Representation Learning:** Sentence embeddings (SBERT), contrastive learning
-- **Graph-Based Learning:** Knowledge graph construction, graph neural networks
-- **Scalability:** Distributed training, large-scale embedding indexing, efficient inference pipelines
+- **Topic discovery:** Use **BERTopic**, **LDA**, or hybrid clustering to uncover subtopics inside the ten coarse Yahoo! Answers labels and reveal structure that the current label set hides.
+- **Stronger semantic encoders:** Compare the current results against **Sentence-BERT**, **modern embedding models**, and **contrastive learning** approaches to see whether retrieval-style semantics can match or exceed fine-tuned classification.
+- **Error analysis:** Build a confusion-focused analysis to understand where class overlap still hurts performance, which examples are ambiguous, and whether certain labels are consistently harder to separate.
+- **Model efficiency:** Explore **distillation**, **quantization**, and **mixed-precision inference** to reduce the cost of transformer deployment without sacrificing too much quality.
+- **Scalability:** Turn the notebook workflow into a reproducible pipeline with cached artifacts, faster data loading, and batch inference for large-scale routing.
+- **Robust evaluation:** Test on alternative splits and noisy subsets to measure stability, calibration, and generalization beyond one validation split.

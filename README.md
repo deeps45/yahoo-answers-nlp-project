@@ -161,19 +161,23 @@ pip install -r requirements.txt
 
 ## 🔑 Key Dependencies
 
+The table below reflects the versions pinned in `requirements.txt`.
+
 | Package | Version | Used For |
 |---------|---------|---------|
 | Python | 3.11 | Runtime |
-| pandas | 2.2.0 | Data loading and manipulation |
-| numpy | 1.26.4 | Numerical operations |
-| scikit-learn | 1.4.1 | TF-IDF, Logistic Regression, LSA, CV |
-| matplotlib | 3.8.0 | Visualizations |
+| pandas | 2.2.2 | Data loading and manipulation |
+| numpy | 2.0.2 | Numerical operations |
+| scikit-learn | 1.6.1 | TF-IDF, Logistic Regression, LSA, CV |
+| matplotlib | 3.10.0 | Visualizations |
 | seaborn | 0.13.2 | Heatmaps and EDA plots |
-| transformers | 4.40.0 | BERT, DistilBERT, BART (HuggingFace) |
-| datasets | 2.19.0 | HuggingFace dataset utilities |
-| accelerate | 0.30.0 | HuggingFace Trainer GPU support |
-| torch | 2.2.0 | PyTorch backend for all neural models |
-| fastai | 2.7.14 | ULMFiT / AWD-LSTM |
+| scipy | 1.16.3 | Scientific computing utilities |
+| transformers | 5.0.0 | BERT, DistilBERT, BART (HuggingFace) |
+| datasets | 4.0.0 | HuggingFace dataset utilities |
+| accelerate | 1.13.0 | HuggingFace Trainer GPU support |
+| torch | >=2.0.0 | PyTorch backend for all neural models |
+| fastai | 2.8.7 | ULMFiT / AWD-LSTM |
+| tqdm | 4.67.3 | Progress reporting |
 
 The complete list of every package and version from the Colab session lives in [`requirements.txt`](requirements.txt).
 

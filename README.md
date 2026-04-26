@@ -70,11 +70,14 @@ The notebook's Phase 2 (Data Loading) will auto-resolve the path when running in
 ### Preprocessing
 
 All preprocessing is done inside `main_notebook.ipynb` Phase 2. Key steps:
-1. Assign column names (`label`, `title`, `body`, `answer`)
-2. Handle embedded newlines in user posts using `quoting=csv.QUOTE_ALL`
-3. Combine `title + " " + body + " " + answer` into a single `text` field
-4. Strip `NaN` entries and normalize whitespace
-5. Map integer labels (1–10) to human-readable class names
+1. **Load CSV files** — Use `pd.read_csv()` with `engine="python"`, `on_bad_lines="skip"`, and `quoting=csv.QUOTE_MINIMAL` to handle embedded newlines in user posts
+2. **Assign column names** — Map raw columns to (`label`, `title`, `question`, `answer`)
+3. **Missing value audit** — Investigate why 46% of rows have NaN in question/answer fields (root cause: CSV parsing artifacts from embedded newlines)
+4. **Drop NaN rows** — Remove rows with NaN in any of the three text fields (reduces 1.4M → ~754K training samples)
+5. **Remove exact duplicates** — Drop identical rows; no duplicates found in this dataset
+6. **Combine text fields** — Concatenate title + question + answer into a single `text` field (this combined field is used for all downstream modeling)
+7. **Map labels** — Convert integer labels (1–10) to human-readable class names (Society & Culture, Science & Math, Health, etc.)
+8. **Validate** — Assert zero NaN values remain before modeling begins
 
 ---
 

@@ -280,3 +280,14 @@ If this project were turned into a real application, the most practical path wou
 - **Model efficiency:** Explore **distillation**, **quantization**, and **mixed-precision inference** to reduce the cost of transformer deployment without sacrificing too much quality.
 - **Scalability:** Turn the notebook workflow into a reproducible pipeline with cached artifacts, faster data loading, and batch inference for large-scale routing.
 - **Robust evaluation:** Test on alternative splits and noisy subsets to measure stability, calibration, and generalization beyond one validation split.
+
+---
+
+## 📚 References
+
+- Devlin, J., Chang, M-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. *arXiv:1810.04805*.
+- Howard, J., & Ruder, S. (2018). Universal Language Model Fine-tuning for Text Classification. *arXiv:1801.06146*.
+- Sanh, V., Debut, L., Chaumond, J., & Wolf, T. (2019). DistilBERT, a distilled version of BERT. *arXiv:1910.01108*.
+- Zhang, X., Zhao, J., & LeCun, Y. (2015). Character-level convolutional networks for text classification. *NeurIPS 28*.
+- Merity, S., Keskar, N.S., & Socher, R. (2017). Regularizing and Optimizing LSTM Language Models. *arXiv:1708.02182*.
+- Lewis, M., et al. (2020). BART: Denoising Sequence-to-Sequence Pre-training. *arXiv:1910.13461*.

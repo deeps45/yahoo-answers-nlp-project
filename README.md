@@ -214,6 +214,12 @@ yahoo-answers-nlp-project/
 ├── data/
 │   └── README_data.md           # Instructions for downloading the dataset
 │
+├── scripts/
+│   ├── setup.sh                 # One-step environment setup
+│   ├── download_data.sh         # Download + extract dataset archive
+│   ├── extract_figures.py       # Extract notebook image outputs to assets/
+│   └── verify_setup.py          # Validate repo structure and dependencies
+│
 ├── main_notebook.ipynb          # 👈 Main deliverable — start here
 ├── README.md                    # This file
 └── requirements.txt             # Full dependency list (exported from Colab)

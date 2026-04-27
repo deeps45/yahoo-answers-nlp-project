@@ -1,5 +1,5 @@
 # 🗣️ Can a Machine Know What You’re Talking About?
-## Yahoo! Answers Topic Classification with Classical NLP and Transformers
+## ContextIQ: Bidirectional Intelligence for Text Classification
 
 **Course:** CSCE 676 — Data Mining  
 **Dataset:** Yahoo! Answers Topic Classification (Zhang et al., 2015)
@@ -198,8 +198,9 @@ The complete list of every package and version from the Colab session lives in [
 
 ## 📁 Repo Structure
 
-```
 yahoo-answers-nlp-project/
+```
+ContextIQ/
 │
 ├── assets/
 │   ├── figure_01_f1_per_class.png

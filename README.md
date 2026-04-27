@@ -1,5 +1,6 @@
-# 🗣️ Can a Machine Know What You’re Talking About?
-## ContextIQ: Bidirectional Intelligence for Text Classification
+# ContextIQ: Bidirectional Intelligence for Text Classification
+## Yahoo! Answers Topic Classification with Classical NLP and Transformers
+
 
 **Course:** CSCE 676 — Data Mining  
 **Dataset:** Yahoo! Answers Topic Classification (Zhang et al., 2015)

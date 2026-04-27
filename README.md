@@ -139,6 +139,7 @@ This repo includes a `scripts/` folder with utilities for setup, reproducibility
 - `scripts/download_data.sh` — Downloads and extracts the Yahoo Answers dataset to `data/`
 - `scripts/extract_figures.py` — Extracts all image outputs from `main_notebook.ipynb` to `assets/`
 - `scripts/verify_setup.py` — Checks repo structure and key dependencies
+ - `scripts/clean_notebooks.py` — Removes widget metadata from notebooks for a smaller, shareable notebook
 
 ### Quick usage
 
@@ -221,6 +222,7 @@ ContextIQ/
 │   ├── download_data.sh         # Download + extract dataset archive
 │   ├── extract_figures.py       # Extract notebook image outputs to assets/
 │   └── verify_setup.py          # Validate repo structure and dependencies
+│   └── clean_notebooks.py       # Remove widgets metadata from notebooks
 │
 ├── main_notebook.ipynb          # 👈 Main deliverable — start here
 ├── README.md                    # This file
